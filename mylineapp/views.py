@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TextSendMessage, StickerSendMessage, ImageSendMessage
+from linebot.models import MessageEvent, TextSendMessage, StickerSendMessage, ImageSendMessage, LocationSendMessage
 
 
 import datetime
@@ -43,7 +43,11 @@ def callback(request):
                     [ TextSendMessage(text=msg),
                       StickerSendMessage(package_id=789, sticker_id=10856),
                       ImageSendMessage(original_content_url=imgurl,
-                            preview_image_url=imgurl)
+                            preview_image_url=imgurl),
+                      LocationSendMessage(title='Wenzao',
+                            address='Kaohsiung',
+                            latitude=22.670433671963938,
+                            longitude=120.31828567437472)
                     ]
                     )
 
