@@ -33,7 +33,7 @@ def callback(request):
             if isinstance(event, MessageEvent):
 
                 tdnow = datetime.datetime.now()
-                msg = td.new + '\n' + enent.message.text
+                msg = tdnow.strftime("%m/%d/%Y, %H:%M:%S") + '\n' + event.message.text
 
                 # 回傳收到的文字訊息
                 line_bot_api.reply_message(
