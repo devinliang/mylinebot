@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TextSendMessage, StickerSendMessage
+from linebot.models import MessageEvent, TextSendMessage, StickerSendMessage, ImageSendMessage
 
 
 import datetime
@@ -35,12 +35,15 @@ def callback(request):
 
                 tdnow = datetime.datetime.now()
                 msg = tdnow.strftime("%Y/%m/%d, %H:%M:%S") + '\n' + event.message.text
+                imgurl = "https://a001.wzu.edu.tw/datas/upload/Pictures/wzlogo_2020.png"
 
                 # 回傳收到的文字訊息
                 line_bot_api.reply_message(
                     event.reply_token,
                     [ TextSendMessage(text=msg),
-                      StickerSendMessage(package_id=789, sticker_id=10856)
+                      StickerSendMessage(package_id=789, sticker_id=10856),
+                      ImageSendMessage(original_content_url=imgurl,
+                            preview_image_url=imgurl)
                     ]
                     )
 
