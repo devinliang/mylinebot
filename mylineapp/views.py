@@ -35,7 +35,7 @@ def callback(request):
 
                 tdnow = datetime.datetime.now()
                 msg = tdnow.strftime("%Y/%m/%d, %H:%M:%S") + '\n' + event.message.text
-                imgurl = "https://a001.wzu.edu.tw/datas/upload/Pictures/wzlogo_2020.png"
+                imgurl = "https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2024/03/08/1/29147449.jpg&x=0&y=0&sw=0&sh=0&sl=W&fw=800&exp=3600&w=930&nt=1"
 
                 # 回傳收到的文字訊息
                 line_bot_api.reply_message(
