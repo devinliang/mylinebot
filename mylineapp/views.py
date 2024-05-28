@@ -7,6 +7,8 @@ from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TextSendMessage
 
+import datetime
+
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
@@ -29,10 +31,14 @@ def callback(request):
         for event in events:
             # 若有訊息事件
             if isinstance(event, MessageEvent):
+
+                tdnow = datetime.datetime.now()
+                msg = td.new + '\n' + enent.message.text
+
                 # 回傳收到的文字訊息
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text=event.message.text))
+                    TextSendMessage(text=msg))
 
         return HttpResponse()
     else:
