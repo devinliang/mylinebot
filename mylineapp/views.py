@@ -14,6 +14,28 @@ import random
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
+import requests
+from bs4 import BeautifulSoup
+
+def getInvoice():
+    url = "https://invoice.etax.nat.gov.tw"
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
+    headers = {'User-Agent': user_agent}
+    html = requests.get(url, headers=headers)
+    # html = requests.get(url)
+    html.encoding ='uft-8'
+    soup = BeautifulSoup(html.text, 'html.parser')
+
+    period = soup.find("a", class_="etw-on")
+    rr = period.text+"\n"
+
+    nums = soup.find_all("p", class_="etw-tbiggest")
+    rr += "特別獎：" + nums[0].text + "\n"
+    rr += "特獎：" + nums[1].text + "\n"
+    rr += "頭獎：" + nums[2].text.strip() +" "+ nums[3].text.strip() +" "+ nums[4].text.strip()
+
+    return rr
+
 def index(request):
     return HttpResponse("Hello Line Bot works~!")
 
@@ -80,6 +102,13 @@ def callback(request):
                 elif msg.startswith('今天誰'):
                     names = ['陳柏宇','林冠宇','蔡永詮','黃聖明','吳建樺','雷廷宇','劉承杰','方俊翰','謝政勳','王佩蓉','陳玟卉','施芷庭','吳佳錦','洪芝蓉','黃婕茹']
                     msg = msg.replace('誰','')+'的是:'+random.choice(names)
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
+                    
+                elif msg=='統一發票':
+                    msg = getInvoice()
                     line_bot_api.reply_message(
                         event.reply_token,
                         TextSendMessage(text=msg)
