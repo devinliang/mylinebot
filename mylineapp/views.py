@@ -33,23 +33,35 @@ def callback(request):
             # 若有訊息事件
             if isinstance(event, MessageEvent):
 
-                tdnow = datetime.datetime.now()
-                msg = tdnow.strftime("%Y/%m/%d, %H:%M:%S") + '\n' + event.message.text
-                imgurl = "https://i.imgur.com/TthOEGC.jpg"
+                msg = event.message.text
 
-                # 回傳收到的文字訊息
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    [ TextSendMessage(text=msg),
-                      StickerSendMessage(package_id=789, sticker_id=10856),
-                      ImageSendMessage(original_content_url=imgurl,
-                            preview_image_url=imgurl),
-                      LocationSendMessage(title='Wenzao',
-                            address='Kaohsiung',
-                            latitude=22.670433671963938,
-                            longitude=120.31828567437472)
-                    ]
+                if msg=='hello' or msg=='hi':
+                    # 回傳貼圖
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        StickerSendMessage(package_id=789, sticker_id=10856)
                     )
+
+                elif msg=='who are you':
+                    msg = 'I am your good friend~!'
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
+
+                else:
+                    tdnow = datetime.datetime.now()
+                    msg = tdnow.strftime("%Y/%m/%d, %H:%M:%S") + '\n' + event.message.text
+                    # 回傳收到的文字訊息
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
+
+
+                # imgurl = "https://i.imgur.com/TthOEGC.jpg"
+
+                
 
         return HttpResponse()
     else:
