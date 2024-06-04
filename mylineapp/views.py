@@ -77,7 +77,7 @@ def callback(request):
                         TextSendMessage(text=msg)
                     )
 
-                elif msg.startswith('今天誰最'):
+                elif msg.startswith('今天誰'):
                     names = ['陳柏宇','林冠宇','蔡永詮','黃聖明','吳建樺','雷廷宇','劉承杰','方俊翰','謝政勳','王佩蓉','陳玟卉','施芷庭','吳佳錦','洪芝蓉','黃婕茹']
                     msg = msg.replace('誰','')+'的是:'+random.choice(names)
                     line_bot_api.reply_message(
