@@ -9,6 +9,7 @@ from linebot.models import MessageEvent, TextSendMessage, StickerSendMessage, Im
 
 
 import datetime
+import random
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
@@ -41,6 +42,25 @@ def callback(request):
                         event.reply_token,
                         StickerSendMessage(package_id=789, sticker_id=10856)
                     )
+
+                elif msg== 'guess':
+                    num = random.randint(1,10)
+                    msg = f"{num}"
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
+
+                elif msg=='求籤' or msg=='抽籤':
+                    num = random.randint(1,100)
+                    img = f"https://www.lungshan.org.tw/fortune_sticks/images/{num:03d}.jpg"
+
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        ImageSendMessage(original_content_url=img,
+                        preview_image_url=img)
+                    )
+
 
                 elif msg=='who are you':
                     msg = 'I am your good friend~!'
