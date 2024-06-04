@@ -61,6 +61,29 @@ def callback(request):
                         preview_image_url=img)
                     )
 
+                elif msg=='今天誰最帥':
+                    names = ['陳柏宇','林冠宇','蔡永詮','黃聖明','吳建樺','雷廷宇','劉承杰','方俊翰','謝政勳']
+                    msg = '今天最帥的是:'+random.choice(names)
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
+
+                elif msg=='今天誰最美':
+                    names = ['王佩蓉','陳玟卉','施芷庭','吳佳錦','洪芝蓉','黃婕茹']
+                    msg = '今天最美的是:'+random.choice(names)
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
+
+                elif msg.startswith('今天誰最'):
+                    names = ['陳柏宇','林冠宇','蔡永詮','黃聖明','吳建樺','雷廷宇','劉承杰','方俊翰','謝政勳','王佩蓉','陳玟卉','施芷庭','吳佳錦','洪芝蓉','黃婕茹']
+                    msg = msg.replace('誰','')+'的是:'+random.choice(names)
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
 
                 elif msg=='who are you':
                     msg = 'I am your good friend~!'
