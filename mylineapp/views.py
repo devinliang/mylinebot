@@ -36,6 +36,19 @@ def getInvoice():
 
     return rr
 
+def getCamDict(word):
+    """"擷取"""
+    url = "https://dictionary.cambridge.org/dictionary/english-chinese-traditional/" + word
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
+    html = requests.get(url, headers=headers)
+    soup = BeautifulSoup(html.text, 'html.parser')
+    
+    nn = soup.find_all('div',class_='pos-body')
+    rr = ""
+    for n in nn:
+        rr += n.find('div',class_='def-body').find('span').text + '\n'
+    return rr
+
 def getOilPrice():
     """擷取今日油價"""
     url = "https://www.npcgas.com.tw/home/Oil_today"
@@ -47,7 +60,7 @@ def getOilPrice():
     
     nn = soup.find_all('div',class_='oil-box')
     
-    mm = '九二無鉛:' + nn[0].find('span',class_='f-bold').text + '元\n'
+    mm  = '九二無鉛:' + nn[0].find('span',class_='f-bold').text + '元\n'
     mm += '九五無鉛:' + nn[1].find('span',class_='f-bold').text + '元\n'
     mm += '九八無鉛:' + nn[2].find('span',class_='f-bold').text + '元\n'
     mm += '超級柴油:' + nn[3].find('span',class_='f-bold').text + '元\n'
@@ -104,6 +117,13 @@ def callback(request):
                         StickerSendMessage(package_id=789, sticker_id=10856)
                     )
 
+                elif msg.startswith('/'):
+                    sms = getCamDict( msg[1:] )
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=sms)
+                    )
+                    
                 elif msg== 'guess':
                     num = random.randint(1,10)
                     msg = f"{num}"
