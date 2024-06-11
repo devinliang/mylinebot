@@ -94,10 +94,10 @@ def callback(request):
                     )
 
                 elif msg=='最新消息' or msg=='今日新聞':
-                    msg = getNews()
+                    sms = getNews(6)
                     line_bot_api.reply_message(
                         event.reply_token,
-                        TextSendMessage(text=msg)
+                        TextSendMessage(text=sms)
                     )
 
                 elif msg=='求籤' or msg=='抽籤':
