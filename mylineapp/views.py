@@ -36,6 +36,26 @@ def getInvoice():
 
     return rr
 
+def getNews(num=10):
+    url = "https://www.cna.com.tw/list/aall.aspx"
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
+    html = requests.get(url, headers=headers)
+    
+    soup = BeautifulSoup(html.text, 'html.parser')
+    soup.encoding = 'utf-8'
+    
+    allnews = soup.find(id="jsMainList")
+    nn = allnews.find_all('li')
+    
+    mm = ""
+    for n in nn[:num]:
+        mm += n.find('h2').text +'\n'
+        mm += n.find('div',class_='date').text +'\n'
+        mm += 'https://www.cna.com.tw/' + n.find('a').get('href') +'\n'
+        mm += '-'*30+'\n'
+    return mm
+
+
 def index(request):
     return HttpResponse("Hello Line Bot works~!")
 
@@ -68,6 +88,13 @@ def callback(request):
                 elif msg== 'guess':
                     num = random.randint(1,10)
                     msg = f"{num}"
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
+
+                elif msg=='最新消息' or msg=='今日新聞':
+                    msg = getNews()
                     line_bot_api.reply_message(
                         event.reply_token,
                         TextSendMessage(text=msg)
