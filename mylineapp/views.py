@@ -36,7 +36,9 @@ def getInvoice():
 
     return rr
 
+
 def getNews(num=10):
+    """"擷取中央社新聞"""
     url = "https://www.cna.com.tw/list/aall.aspx"
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
     html = requests.get(url, headers=headers)
@@ -49,8 +51,8 @@ def getNews(num=10):
     
     mm = ""
     for n in nn[:num]:
+        mm += n.find('div',class_='date').text +' '
         mm += n.find('h2').text +'\n'
-        mm += n.find('div',class_='date').text +'\n'
         mm += 'https://www.cna.com.tw/' + n.find('a').get('href') +'\n'
         mm += '-'*30+'\n'
     return mm
