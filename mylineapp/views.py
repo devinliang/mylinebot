@@ -57,18 +57,18 @@ def getInvoice():
 
     return rr
 
-def getCamDict(word):
-    """"擷取"""
-    url = "https://dictionary.cambridge.org/dictionary/english-chinese-traditional/" + word
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
-    html = requests.get(url, headers=headers)
-    soup = BeautifulSoup(html.text, 'html.parser')
-    
-    nn = soup.find_all('div',class_='pos-body')
-    rr = ""
-    for n in nn:
-        rr += n.find('div',class_='def-body').find('span').text + '\n'
-    return rr
+# def getCamDict(word):
+#     """"擷取"""
+#     url = "https://dictionary.cambridge.org/dictionary/english-chinese-traditional/" + word
+#     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
+#     html = requests.get(url, headers=headers)
+#     soup = BeautifulSoup(html.text, 'html.parser')
+#     
+#     nn = soup.find_all('div',class_='pos-body')
+#     rr = ""
+#     for n in nn:
+#         rr += n.find('div',class_='def-body').find('span').text + '\n'
+#     return rr
 
 def getOilPrice():
     """擷取今日油價"""
@@ -139,11 +139,11 @@ def callback(request):
                     )
 
                 elif msg.startswith('/'):
-                    sms = getCamDict( msg[1:] )
-                    rms = cambridge(sms)
+                    
+                    sms = cambridge( msg[1:] )
                     line_bot_api.reply_message(
                         event.reply_token,
-                        TextSendMessage(text=rms)
+                        TextSendMessage(text=sms)
                     )
                     
                 elif msg== 'guess':
