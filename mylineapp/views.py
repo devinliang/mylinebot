@@ -63,7 +63,7 @@ def getInvoice():
 #     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
 #     html = requests.get(url, headers=headers)
 #     soup = BeautifulSoup(html.text, 'html.parser')
-#     
+#
 #     nn = soup.find_all('div',class_='pos-body')
 #     rr = ""
 #     for n in nn:
@@ -75,31 +75,31 @@ def getOilPrice():
     url = "https://www.npcgas.com.tw/home/Oil_today"
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
     html = requests.get(url, headers=headers)
-    
+
     soup = BeautifulSoup(html.text, 'html.parser')
     soup.encoding = 'utf-8'
-    
+
     nn = soup.find_all('div',class_='oil-box')
-    
+
     mm  = '九二無鉛:' + nn[0].find('span',class_='f-bold').text + '元\n'
     mm += '九五無鉛:' + nn[1].find('span',class_='f-bold').text + '元\n'
     mm += '九八無鉛:' + nn[2].find('span',class_='f-bold').text + '元\n'
     mm += '超級柴油:' + nn[3].find('span',class_='f-bold').text + '元\n'
 
-    return mm 
+    return mm
 
 def getNews(num=10):
     """"擷取中央社新聞"""
     url = "https://www.cna.com.tw/list/aall.aspx"
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
     html = requests.get(url, headers=headers)
-    
+
     soup = BeautifulSoup(html.text, 'html.parser')
     soup.encoding = 'utf-8'
-    
+
     allnews = soup.find(id="jsMainList")
     nn = allnews.find_all('li')
-    
+
     mm = ""
     for n in nn[:num]:
         mm += n.find('div',class_='date').text +' '
@@ -139,13 +139,13 @@ def callback(request):
                     )
 
                 elif msg.startswith('/'):
-                    
+
                     sms = cambridge( msg[1:] )
                     line_bot_api.reply_message(
                         event.reply_token,
                         TextSendMessage(text=sms)
                     )
-                    
+
                 elif msg== 'guess':
                     num = random.randint(1,10)
                     msg = f"{num}"
@@ -179,7 +179,8 @@ def callback(request):
                     )
 
                 elif msg=='今天誰最帥':
-                    names = ['陳柏宇','林冠宇','蔡永詮','黃聖明','吳建樺','雷廷宇','劉承杰','方俊翰','謝政勳']
+                    # names = ['陳柏宇','林冠宇','蔡永詮','黃聖明','吳建樺','雷廷宇','劉承杰','方俊翰','謝政勳']
+                    names = ['苑廣文','吳承諭','林昱帆','陳有信','游柳少然','潘佳恩','張佑誠','黃冠森','紅宣宇','洪顥瑋','李漢偉','林琮人','姜以諾','王政傑','石天豪','郭元傑','廖柏誠','王立榮','黃上維','王程凱']
                     msg = '今天最帥的是:'+random.choice(names)
                     line_bot_api.reply_message(
                         event.reply_token,
@@ -187,7 +188,8 @@ def callback(request):
                     )
 
                 elif msg=='今天誰最美':
-                    names = ['王佩蓉','陳玟卉','施芷庭','吳佳錦','洪芝蓉','黃婕茹']
+                    # names = ['王佩蓉','陳玟卉','施芷庭','吳佳錦','洪芝蓉','黃婕茹']
+                    names = ['黃亭瑋','湯羽棻','鄭育婷','黃佳慧','蔡舒涵','古竺恩','洪安潔','梁家瑜','劉怡靜','吳柏璇','洪翎芯','林佑蘭','劉宜靜','蘇婇瑄','彭湘筠','尤晨芸']
                     msg = '今天最美的是:'+random.choice(names)
                     line_bot_api.reply_message(
                         event.reply_token,
@@ -195,13 +197,15 @@ def callback(request):
                     )
 
                 elif msg.startswith('今天誰'):
-                    names = ['陳柏宇','林冠宇','蔡永詮','黃聖明','吳建樺','雷廷宇','劉承杰','方俊翰','謝政勳','王佩蓉','陳玟卉','施芷庭','吳佳錦','洪芝蓉','黃婕茹']
+                    # names = ['陳柏宇','林冠宇','蔡永詮','黃聖明','吳建樺','雷廷宇','劉承杰','方俊翰','謝政勳','王佩蓉','陳玟卉','施芷庭','吳佳錦','洪芝蓉','黃婕茹']
+                    names = ['黃亭瑋','湯羽棻','鄭育婷','黃佳慧','蔡舒涵','古竺恩','洪安潔','梁家瑜','劉怡靜','吳柏璇','洪翎芯','林佑蘭','劉宜靜','蘇婇瑄','彭湘筠','尤晨芸',
+                            '苑廣文','吳承諭','林昱帆','陳有信','游柳少然','潘佳恩','張佑誠','黃冠森','紅宣宇','洪顥瑋','李漢偉','林琮人','姜以諾','王政傑','石天豪','郭元傑','廖柏誠','王立榮','黃上維','王程凱']
                     msg = msg.replace('誰','')+'的是:'+random.choice(names)
                     line_bot_api.reply_message(
                         event.reply_token,
                         TextSendMessage(text=msg)
                     )
-                    
+
                 elif msg=='統一發票':
                     msg = getInvoice()
                     line_bot_api.reply_message(
@@ -228,7 +232,7 @@ def callback(request):
 
                 # imgurl = "https://i.imgur.com/TthOEGC.jpg"
 
-                
+
 
         return HttpResponse()
     else:
