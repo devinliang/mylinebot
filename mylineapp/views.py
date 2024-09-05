@@ -72,19 +72,20 @@ def getInvoice():
 
 def getOilPrice():
     """擷取今日油價"""
-    url = "https://www.npcgas.com.tw/home/Oil_today"
+    url = "https://www.taiwanoil.org/"
+
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0'}
     html = requests.get(url, headers=headers)
 
+    mm = ''
     soup = BeautifulSoup(html.text, 'html.parser')
     soup.encoding = 'utf-8'
-
-    nn = soup.find_all('div',class_='oil-box')
-
-    mm  = '九二無鉛:' + nn[0].find('span',class_='f-bold').text + '元\n'
-    mm += '九五無鉛:' + nn[1].find('span',class_='f-bold').text + '元\n'
-    mm += '九八無鉛:' + nn[2].find('span',class_='f-bold').text + '元\n'
-    mm += '超級柴油:' + nn[3].find('span',class_='f-bold').text + '元\n'
+    nn = soup.find_all('table')
+    hhx = nn[4].find_all('tr')
+    for n in hhx[2:]:
+        nnx = n.find_all('td')
+        mm += nnx[0].text + ':'
+        mm += nnx[1].text + '元\n'
 
     return mm
 
@@ -214,7 +215,7 @@ def callback(request):
                     )
 
                 elif msg=='who are you':
-                    msg = 'I am your good friend~!'
+                    msg = '我是文藻哈拉小天使~!'
                     line_bot_api.reply_message(
                         event.reply_token,
                         TextSendMessage(text=msg)
