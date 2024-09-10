@@ -221,6 +221,13 @@ def callback(request):
                         TextSendMessage(text=msg)
                     )
 
+                elif msg=='class':
+                    msg = '歡迎學習本課程:Python聊天機器人~!'
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=msg)
+                    )
+
                 else:
                     tdnow = datetime.datetime.now()
                     msg = tdnow.strftime("%Y/%m/%d, %H:%M:%S") + '\n' + event.message.text
